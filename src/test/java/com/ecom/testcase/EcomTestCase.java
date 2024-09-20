@@ -1,5 +1,7 @@
 package com.ecom.testcase;
 
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
 import com.ecom.endpoint.ApiRequest;
 import com.ecom.payload.AddProductResponse;
 
@@ -26,9 +28,9 @@ public class EcomTestCase extends Utiles {
 		
        Response Res =ApiRequest.LoginRequest(InValidCredential());
        
-		                     Assert.assertEquals(Res.statusCode(), 400);		                     
+		                     AssertJUnit.assertEquals(Res.statusCode(), 400);		                     
 		                     LoginRespose   LoginResponse = Res.as(LoginRespose.class); 
-		                     Assert.assertEquals(LoginResponse.getMessage(), "Incorrect email or password.");
+		                     AssertJUnit.assertEquals(LoginResponse.getMessage(), "Incorrect email or password.");
 		                     	                          
 	}
 	
@@ -37,10 +39,10 @@ public class EcomTestCase extends Utiles {
 		
 	   Response Res =ApiRequest.LoginRequest(ValidCredential());
 	   
-                           Assert.assertEquals(Res.statusCode(), 200);       
+                           AssertJUnit.assertEquals(Res.statusCode(), 200);       
                            LoginRespose   LoginResponse = Res.as(LoginRespose.class);  
 	                       UserId=  LoginResponse.getUserId();
-                           Assert.assertEquals(LoginResponse.getMessage(), "Login Successfully");
+                           AssertJUnit.assertEquals(LoginResponse.getMessage(), "Login Successfully");
         		           
 	}
 	
@@ -50,10 +52,10 @@ public class EcomTestCase extends Utiles {
 		
 	   Response Res=ApiRequest.AddProductRequest();
 	   
-                          Assert.assertEquals(Res.statusCode(), 201);                                                      
+                          AssertJUnit.assertEquals(Res.statusCode(), 201);                                                      
                           AddProductResponse   addproductResponse = Res.as(AddProductResponse.class);    
                           ProductId=  addproductResponse.getProductId();                                  
-                          Assert.assertEquals(addproductResponse.getMessage(), "Product Added Successfully");
+                          AssertJUnit.assertEquals(addproductResponse.getMessage(), "Product Added Successfully");
                                                         	           		
 	}
 	
@@ -63,9 +65,9 @@ public class EcomTestCase extends Utiles {
 		
 	   Response Res= ApiRequest.CreateOrderRequest();
 	   
-		                  Assert.assertEquals(Res.statusCode(), 201);		                                                    		                                                    
+		                  AssertJUnit.assertEquals(Res.statusCode(), 201);		                                                    		                                                    
 		                  NewOrderResponse OrderResponse =  Res.as(NewOrderResponse.class);   		                             
-		                  Assert.assertEquals(OrderResponse.getProductOrderId().get(0), ProductId);                  
+		                  AssertJUnit.assertEquals(OrderResponse.getProductOrderId().get(0), ProductId);                  
 		
 	}
 		
@@ -74,12 +76,12 @@ public class EcomTestCase extends Utiles {
 				
 	  Response Res =ApiRequest.ViewOrderRequest();
 	  
-				          Assert.assertEquals(Res.statusCode(), 200);
+				          AssertJUnit.assertEquals(Res.statusCode(), 200);
 				          ViewProductResponse   ViewOrderResponse = Res.as(ViewProductResponse.class);	          
-				          Assert.assertEquals(ViewOrderResponse.getData().getProductOrderedId(), ProductId);
-				          Assert.assertEquals(ViewOrderResponse.getData().getOrderBy(), ValidCredential().getUserEmail());
-				          Assert.assertEquals(ViewOrderResponse.getData().getOrderById(), UserId);
-				          Assert.assertEquals(ViewOrderResponse.getMessage(), "Orders fetched for customer Successfully");
+				          AssertJUnit.assertEquals(ViewOrderResponse.getData().getProductOrderedId(), ProductId);
+				          AssertJUnit.assertEquals(ViewOrderResponse.getData().getOrderBy(), ValidCredential().getUserEmail());
+				          AssertJUnit.assertEquals(ViewOrderResponse.getData().getOrderById(), UserId);
+				          AssertJUnit.assertEquals(ViewOrderResponse.getMessage(), "Orders fetched for customer Successfully");
 	          		
 	}
 	
@@ -89,8 +91,8 @@ public class EcomTestCase extends Utiles {
 		
 	Response Res = ApiRequest.DeleteProductRequest();
 		
-		                 Assert.assertEquals(Res.statusCode(), 200);
-		                 Assert.assertEquals(Res.jsonPath().getString("message"), "Product Deleted Successfully");  
+		                 AssertJUnit.assertEquals(Res.statusCode(), 200);
+		                 AssertJUnit.assertEquals(Res.jsonPath().getString("message"), "Product Deleted Successfully");  
 		
 	}
 

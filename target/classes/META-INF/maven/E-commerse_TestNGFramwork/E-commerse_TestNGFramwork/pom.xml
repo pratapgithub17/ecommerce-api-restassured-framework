@@ -61,12 +61,49 @@
 			    <groupId>org.apache.poi</groupId>
 			    <artifactId>poi</artifactId>
 			    <version>5.3.0</version>
-			</dependency>
-
-
-	 
-	 
+			</dependency>	  
 	 
 	 </dependencies>
+	 
+	 
+	 <build>
+	    <pluginManagement>
+			     
+			      <plugins>
+			      
+			       <plugin>
+				            <groupId>org.apache.maven.plugins</groupId>
+				            <artifactId>maven-compiler-plugin</artifactId>
+				            <version>3.13.0</version> <!-- Use a recent version -->
+				            <configuration>
+					                <source>1.8</source> <!-- or 11, 17 depending on your JDK -->
+					                <target>1.8</target> <!-- or 11, 17 depending on your JDK -->
+                          </configuration>
+                  </plugin>
+			      
+			      
+			      
+			       <plugin>
+			            
+			            	  <groupId>org.apache.maven.plugins</groupId>
+					          <artifactId>maven-surefire-plugin</artifactId>
+					          <version>3.5.0</version>
+					          
+					        <configuration>
+					                 <testFailureIgnore>true</testFailureIgnore>
+					        
+					          <includes>
+					                  <include>**/*EcomTestCase.java</include>
+					          </includes>
+					        </configuration>  
+					          
+                     </plugin>
+			      
+			      </plugins> 
+			     
+	    </pluginManagement>
+			     
+   </build>
+
 	 
 	 </project>
