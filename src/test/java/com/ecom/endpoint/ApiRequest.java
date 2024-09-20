@@ -3,15 +3,16 @@ package com.ecom.endpoint;
 import static io.restassured.RestAssured.*;
 import static io.restassured.matcher.RestAssuredMatchers.*;
 import java.io.File;
+import java.io.IOException;
+
 import com.ecom.payload.LoginDetails;
-import com.ecom.payload.PayloadClass;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ecom.utilities.Utiles;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 
-public class ApiRequest {
+public class ApiRequest extends Utiles {
 	
 	                static  String UserId;
 	                static String AuthToken;
@@ -20,14 +21,14 @@ public class ApiRequest {
 	
 	public static Response LoginRequest(LoginDetails Payload) {
 		
-	Response response=  given()
+		Response response= given()
 		                         .body(Payload)
 		                         .contentType(ContentType.JSON)
       		  
 		               .when()
 		                         .post(Endpoint.LoginUrl)
 		 		  
-		               .then()
+		               .then()  		                        
 		                         .extract().response();
 	                              UserId= response.jsonPath().getString("userId");
 	                              AuthToken= response.jsonPath().getString("token");
@@ -35,10 +36,10 @@ public class ApiRequest {
 				
 	}
 	
-	public static Response AddProductRequest() throws JsonProcessingException {
+	public static Response AddProductRequest() throws IOException {
 		
 	Response response=  given(ReqResBuilder.getRequestSpec(AuthToken))
-			                         .formParams(PayloadClass.ProductPayload(UserId))
+			                         .formParams(ProductPayload(UserId))
 			                         .contentType(ContentType.MULTIPART)
 			                         .multiPart("productImage",new File("shopping.jpg"))			                              		  
 			           .when()
@@ -56,7 +57,7 @@ public class ApiRequest {
     Response response = given(ReqResBuilder.getRequestSpec(AuthToken))
 					                .contentType(ContentType.JSON)
 					                .log().body()
-					                .body(PayloadClass.Orderpayload(ProductId))
+					                .body(Orderpayload(ProductId))
 		         
 		         
 		             .when()

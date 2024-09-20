@@ -6,6 +6,8 @@
       <class name="com.ecom.testcase.EcomTestCase">
         <methods>
           <include name="ViewOrderById"/>
+          <include name="ShouldAbleToAddProduct"/>
+          <include name="CreateNewOrder"/>
         </methods>
       </class> <!-- com.ecom.testcase.EcomTestCase -->
     </classes>

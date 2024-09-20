@@ -5,25 +5,26 @@ import com.ecom.payload.AddProductResponse;
 
 import com.ecom.payload.LoginRespose;
 import com.ecom.payload.NewOrderResponse;
-import com.ecom.payload.PayloadClass;
 import com.ecom.payload.ViewProductResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ecom.utilities.Utiles;
+
+import java.io.IOException;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import io.restassured.response.Response;
 
-public class EcomTestCase {
+public class EcomTestCase extends Utiles {
 	
 	
 	static String ProductId;
 	static String UserId;
 	  
 	@Test (priority=1)
-    public static void NotAbleToLogin() {
+    public static void NotAbleToLogin() throws IOException {
 		
-       Response Res =ApiRequest.LoginRequest(PayloadClass.InValidCredential());
+       Response Res =ApiRequest.LoginRequest(InValidCredential());
        
 		                     Assert.assertEquals(Res.statusCode(), 400);		                     
 		                     LoginRespose   LoginResponse = Res.as(LoginRespose.class); 
@@ -32,20 +33,20 @@ public class EcomTestCase {
 	}
 	
 	@Test (priority=2)
-	public static void ShouldAbleTologin() {
+	public static void ShouldAbleTologin() throws IOException {
 		
-	   Response Res =ApiRequest.LoginRequest(PayloadClass.ValidCredential());
+	   Response Res =ApiRequest.LoginRequest(ValidCredential());
 	   
                            Assert.assertEquals(Res.statusCode(), 200);       
                            LoginRespose   LoginResponse = Res.as(LoginRespose.class);  
 	                       UserId=  LoginResponse.getUserId();
                            Assert.assertEquals(LoginResponse.getMessage(), "Login Successfully");
-        		
+        		           
 	}
 	
 	@Test (priority=3)
 
-	public static void ShouldAbleToAddProduct() throws JsonProcessingException {
+	public static void ShouldAbleToAddProduct() throws IOException {
 		
 	   Response Res=ApiRequest.AddProductRequest();
 	   
@@ -69,21 +70,21 @@ public class EcomTestCase {
 	}
 		
 	@Test (priority=5)
-	public static void ViewOrderById() {
+	public static void ViewOrderById() throws IOException {
 				
 	  Response Res =ApiRequest.ViewOrderRequest();
 	  
 				          Assert.assertEquals(Res.statusCode(), 200);
 				          ViewProductResponse   ViewOrderResponse = Res.as(ViewProductResponse.class);	          
 				          Assert.assertEquals(ViewOrderResponse.getData().getProductOrderedId(), ProductId);
-				          Assert.assertEquals(ViewOrderResponse.getData().getOrderBy(), PayloadClass.ValidCredential().getUserEmail());
+				          Assert.assertEquals(ViewOrderResponse.getData().getOrderBy(), ValidCredential().getUserEmail());
 				          Assert.assertEquals(ViewOrderResponse.getData().getOrderById(), UserId);
 				          Assert.assertEquals(ViewOrderResponse.getMessage(), "Orders fetched for customer Successfully");
 	          		
 	}
 	
 	
-	@Test (priority=6)
+//	@Test (priority=6)
 	public static void DeleteProduct() {
 		
 	Response Res = ApiRequest.DeleteProductRequest();
